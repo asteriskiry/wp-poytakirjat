@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Plugin Name: WP-Pöytäkirjat
+ * Plugin Name: WP Pöytäkirjat
  * Description: Pöytäkirja-arkisto
  * Plugin URI: https://asteriski.fi
  * Author: Maks Turtiainen, Asteriski ry
