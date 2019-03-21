@@ -49,9 +49,6 @@ function wppoyt_front_enqueue_scripts() {
 
     wp_register_script( 'wpark-front-js', plugins_url( 'js/front-poytakirjat.js', __FILE__ ),  true );
     wp_register_style( 'wpark-front-css', plugins_url( 'css/front-poytakirjat.css', __FILE__ ) );
-    wp_register_style( 'wpark-t-front-css', plugins_url( 'css/front-tentit.css', __FILE__ ) );
-    wp_register_script( 'wpark-t-front-js', plugins_url( 'js/front-tentit.js', __FILE__ ),  true );
-    wp_register_script( 'wpark-t-kurssit-js', plugins_url( 'js/kurssit-archive.js', __FILE__ ),  true );
 
     /* Ladataan koko fronttiin */
 
