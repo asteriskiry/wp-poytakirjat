@@ -6,7 +6,19 @@
 
 get_header();
 
+/**
+ * Asteriski WP teemaa varten
+ */
 ?>
+
+<header class="page-header">
+    <div class="overlay-dark"></div>
+    <div class="container breadcrumbs-wrapper">
+        <div class="breadcrumbs d-flex flex-column justify-content-center">
+            <h3><?php wp_title(''); ?></h3>
+        </div>
+    </div>
+</header>
 
 <div class="pk-single">
 <script>
@@ -38,7 +50,7 @@ if ( have_posts() ) : while ( have_posts() ) : the_post();
     echo '<div class="pk-grid">';
     echo '<div class="pk-thumb">';
     echo '<div class="btn26">';
-    echo '<img src="' . $thumbnail . '"><div class="ovrly"></div><div class="anim-buttons"><a class="fa fa-file-pdf-o" href="' . $pdfurl . '"></a></div>';
+    echo '<img src="' . $thumbnail . '"><div class="ovrly"></div><div class="anim-buttons"><a class="fa fa-file-pdf" href="' . $pdfurl . '"></a></div>';
     echo '</div>';
     echo '</div>';
     echo '<div class="pk-single-meta">';
