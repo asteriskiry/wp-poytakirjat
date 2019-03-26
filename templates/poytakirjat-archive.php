@@ -134,8 +134,7 @@ while ( $pk_by_year->have_posts() ) : $pk_by_year->the_post();
     global $post;
     $title = get_the_title();
     $custom_pdf_data = get_post_meta($post->ID, 'custom_pdf_data');
-    /* Kommentoitu $slug sitä varten jos halutaan valikosta suoraan pdf-tiedostoon */
-    //$slug = $custom_pdf_data[0]['src'];
+    $pdfurl = $custom_pdf_data[0]['src'];
     $slug = get_permalink();
     $pm = get_post_meta( $post->ID, 'pk_paivamaara', true );
     $jn = get_post_meta( $post->ID, 'pk_numero', true );
@@ -145,7 +144,7 @@ while ( $pk_by_year->have_posts() ) : $pk_by_year->the_post();
     /* HTML: dynaamiset kentät*/
 
     echo '<tr class="item">';
-    echo '<td><div class="tooltip"><a class="hvr-grow" href="' . $slug . '">' . $title . '</a><img class="tooltipimg" src="' . $thumbnail  . '"></div></td>';
+    echo '<td><div class="tooltip"><a class="hvr-grow" href="' . $pdfurl . '">' . $title . '</a><img class="tooltipimg" src="' . $thumbnail  . '"></div></td>';
     echo '<td> ' . $jn  . '</td>';
     echo '<td> ' . $pm  . '</td>';
     echo '<td> ' . $tyyppi[0]->name  . '</td>';
