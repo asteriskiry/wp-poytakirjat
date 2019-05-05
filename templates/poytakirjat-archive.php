@@ -119,7 +119,7 @@ if ( $pk_by_year-> have_posts() ) :
         <thead>
             <tr class="pk-rivi">	
                 <th class="pk-indeksit">Nimi </th>
-                <th class="pk-indeksit">Järjestysnumero </th>
+                <th class="pk-indeksit">Jnro </th>
                 <th class="pk-indeksit">Päivämäärä </th>
                 <th class="pk-indeksit">Tyyppi </th>
             </tr>
