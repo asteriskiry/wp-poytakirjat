@@ -5,7 +5,7 @@
  * Description: Pöytäkirja-arkisto
  * Plugin URI: https://asteriski.fi
  * Author: Maks Turtiainen, Asteriski ry
- * Version: 1.3
+ * Version: 1.5
  * Author URI: https://github.com/asteriskiry
  * License: MIT
  **/
@@ -18,59 +18,49 @@ require_once (plugin_dir_path(__FILE__) . 'wp-arkisto-poytakirjat.php' );
 require_once (plugin_dir_path(__FILE__) . 'wp-arkisto-enqueue.php' );
 require_once (plugin_dir_path(__FILE__) . 'wp-arkisto-poytakirjat-uploader.php' );
 
-/* Dashboard-widgetti */
-
-/*
-function wpark_dashboard () {
-    add_meta_box( 'wpark_dashboard_welcome', 'Hei', 'wpark_add_dashboard_widget', 'dashboard', 'normal', 'high' );
-}
-function wpark_add_dashboard_widget () {
-?>
-    <div class="wpark-dashboard">
-        <h1>Tervetuloa</h1>
-        <h3>Haluatko:</h3>
-        <ul>
-<?php   
-    echo '<li><a href="' . admin_url( 'edit.php?post_type=poytakirjat' ) . '">Lisätä pöytäkirjan</a></li>';
-    echo '<li><a href="' . admin_url( 'edit.php?post_type=tentit' ) . '">Lisätä tentin tenttiarkistoon</a></li>'; 
-    echo '<h3>Vahvistusta odottavat tentit:</h3>';
-    echo '</ul>';
-    echo '</div>';
-}
-
-add_action( 'wp_dashboard_setup', 'wpark_dashboard' );
- */
-
-/* Luodaan sivut fronttiin */
-
-function wppoyt_add_pages () {
-    $pk_query = new WP_Query('pagename=poytakirjat');	
-    if(empty($pk_query->posts) && empty($pk_query->queried_object) && get_option('poytakirjat-created') == false) {
-        $poytakirjat_page = array(
-            'post_title' => 'Pöytäkirjat',
-            'post_name' => 'poytakirjat',
-            'post_status' => 'publish',
-            'post_author' => 1,
-            'post_type' => 'page',
-            'comment_status' => 'closed'
-        );
-        $poytakirjat_post_id = wp_insert_post( $poytakirjat_page );
-        update_option('poytakirjat-created', true);
-    }
-}
-
-add_action( 'admin_init', 'wppoyt_add_pages'  );
-
 /* Poistetaan listauksesta quick edit */
 
 function wppoyt_remove_quick_edit( $actions  ) {
     global $typenow;
     if ($typenow == 'poytakirjat') {
         unset($actions['inline hide-if-no-js']);
-        return $actions;
-    } else {
-        return $actions;
     }
+    
+    return $actions;
 }
 
-add_filter('post_row_actions','wppoyt_remove_quick_edit',10,1);
+add_filter('post_row_actions','wppoyt_remove_quick_edit');
+
+function wppoyt_enqueue_shortcode_assets(  ) {
+   
+    switch (get_option('wp_poytakirjat_settings_theme', 'default')) {
+        
+        case 'technica':
+            wp_enqueue_style('wpark-technica', plugins_url('css/technica.css', __FILE__));
+            break;
+        default:
+        wp_enqueue_style('wpark-asteriski', plugins_url('css/asteriski.css', __FILE__));
+        break;
+    }
+    wp_deregister_style('jquery-ui-base-dialog');
+    wp_enqueue_style('jquery-ui-base-dialog', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.1/themes/base/jquery-ui.min.css');
+
+    wp_enqueue_style('wpark-datatables-css', plugins_url('assets/datatables.min.css', __FILE__));
+    wp_enqueue_script('wpark-datatables-js', plugins_url('assets/datatables.min.js', __FILE__), array( 'jquery' ), true);
+    
+    wp_enqueue_script('wpark-front-js', plugins_url('js/front-poytakirjat.js', __FILE__), array('jquery', 'jquery-ui-core', 'jquery-ui-dialog', 'jquery-ui-button', 'jquery-ui-position', 'wpark-datatables-js'), true);
+    wp_enqueue_style('wpark-front-css', plugins_url('css/front-poytakirjat.css', __FILE__));
+    
+}
+add_action('wp_enqueue_scripts', 'wppoyt_enqueue_shortcode_assets');
+
+// The shortcode function
+function asteriski_poytakirja_shortcode() {
+    
+    
+    ob_start();
+    include (plugin_dir_path(__FILE__) . 'templates/poytakirjat-shortcode.php');
+    return ob_get_clean();
+}
+// Register shortcode
+add_shortcode('poytakirja_taulukko', 'asteriski_poytakirja_shortcode');

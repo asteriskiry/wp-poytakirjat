@@ -1,17 +1,18 @@
 <?php
 
-/** 
- * Pöytäkirjojen PDF-uploaderi 
+/**
+ * Pöytäkirjojen PDF-uploaderi
  **/
 
 namespace pdf_uploader;
 
-/* Lisätään metaboxi pöytäkirjojen lisäyssivuille */
+/* Lisätään metaboxi Pöytäkirjojen lisäyssivuille */
 
-function register_metaboxes() {
+function register_metaboxes(): void
+{
     add_meta_box(
-        'pdf_uploader_metabox', 
-        'Pöytäkirjan tiedosto', 
+        'pdf_uploader_metabox',
+        'Pöytäkirjan tiedosto',
         __NAMESPACE__ . '\pdf_uploader_callback',
         'poytakirjat',
         'normal'
@@ -21,12 +22,13 @@ add_action( 'add_meta_boxes', __NAMESPACE__ . '\register_metaboxes' );
 
 /* HTML:n generointi lisäyssivulle */
 
-function pdf_uploader_callback( $post_id ) {
-    wp_nonce_field( basename( __FILE__ ), 'custom_pdf_nonce' ); 
+function pdf_uploader_callback( $post_id ): void
+{
+    wp_nonce_field( basename( __FILE__ ), 'custom_pdf_nonce' );
     ?>
 
     <div id="metabox_wrapper">
-        <img id="pdf-tag"></img>
+        <img id="pdf-tag" alt="" src="">
 		<input type="hidden" id="pdf-hidden" name="custom_pdf_data">
 		<input type="button" id="pdf-upload-button" class="button" value="Lisää pöytäkirja">
 		<input type="button" id="pdf-delete-button" class="button" value="Poista pöytäkirja">
@@ -36,8 +38,8 @@ function pdf_uploader_callback( $post_id ) {
 }
 
 /* Tallennus tietokantaan */
-
-function save_custom_pdf( $post_id ) {
+function save_custom_pdf( $post_id ): void
+{
 	$is_autosave = wp_is_post_autosave( $post_id );
 	$is_revision = wp_is_post_revision( $post_id );
 	$is_valid_nonce = ( isset( $_POST[ 'custom_pdf_nonce' ] ) && wp_verify_nonce( $_POST[ 'custom_pdf_nonce' ], basename( __FILE__ ) ) );
