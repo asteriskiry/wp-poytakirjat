@@ -1,0 +1,52 @@
+#pk{
+	font-family: Signika Negative, sans-serif;
+}
+
+.pk-indeksit {
+	background-color: #08ab93 !important;
+	color: #fff;
+}
+
+.pk-indeksit:hover {
+	background-color: #06806e !important;
+	color: #fff;
+}
+
+#pk-taulukko a {
+	color: #08ab93;
+	text-decoration: none;
+}
+
+/* Napit ja animaatiot */
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+	color: #08ab93 !important;
+	border-color: #08ab93 !important;
+	border-width: 2px;
+	background: transparent !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+	color: #f4f7f5 !important;
+	background: #08ab93 !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled, .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover, .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:active {
+	color: #666 !important;
+	border-color: #666 !important;
+}
+
+table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control::before, table.dataTable.dtr-inline.collapsed > tbody > tr > th.dtr-control::before {
+	color: #08ab93 !important;
+	border: none;
+	box-shadow: none;
+	font-family: inherit;
+	font-size: 18px !important;;
+	font-weight: bold;
+	content: "+";
+	background-color: transparent;
+}
+
+table.dataTable.dtr-inline.collapsed > tbody > tr.parent > td.dtr-control::before, table.dataTable.dtr-inline.collapsed > tbody > tr.parent > th.dtr-control::before {
+	content: "-";
+	background-color: transparent;
+}
