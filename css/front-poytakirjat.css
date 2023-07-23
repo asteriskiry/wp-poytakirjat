@@ -98,8 +98,18 @@
 }
 
 #pk-taulukko {
-	padding: 10px;
+	padding: 10px 0;
 	border: none;
+	width: 100% !important;
+}
+
+#cat {
+	border-color: var(--grey-1);
+	width: 200px;
+}
+
+#pk-taulukko_filter input {
+	width: 100%;
 }
 
 .tooltip {

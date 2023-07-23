@@ -5,8 +5,7 @@
 /* Päivämäärän valitsin */
 
 jQuery(document).ready(function() {
-    jQuery( '.datepicker'  ).datepicker();
-    jQuery( '.datepicker'  ).datepicker( "option", "showAnim", "slideDown" );
+    let datepick = jQuery( '.datepicker'  );
+    datepick.datepicker();
+    datepick.datepicker( "option", "showAnim", "slideDown" );
 });
-
-

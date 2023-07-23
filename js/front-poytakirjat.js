@@ -50,14 +50,14 @@ jQuery(document).ready(function($) {
 			height: dHeight,
 			width: dWidth,
 			position: position,
-			show: { effect: "fade-in", duration: 400 },
-			hide: { effect: "fade-out", duration: 400 },
+			show: {effect: 'fade-in', duration: 400},
+			hide: {effect: 'fade-out', duration: 400},
 			open: function() {
 				$('body').css('overflow', 'hidden');
 			},
 			close: function() {
 				$('body').css('overflow', '');
-			}
+			},
 		});
 	});
 });

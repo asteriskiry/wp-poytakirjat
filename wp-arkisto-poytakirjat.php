@@ -311,35 +311,40 @@ function wpark_pk_add_help_page(): void
 		'wpark_pk_help_cb'
 	);
 }
+
 function wp_poytakirjat_settings_theme_cb(): void
 {
 	?>
 	<select id="wp_poytakirjat_settings_theme" name="wp_poytakirjat_settings_theme">
-		<option value="default" <?php selected('default', get_option('wp_poytakirjat_settings_theme'));?>>Oletus</option>
-        <option value="asteriski" <?php selected('asteriski', get_option('wp_poytakirjat_settings_theme'));?>>Asteriski</option>
-        <option value="technica" <?php selected('technica', get_option('wp_poytakirjat_settings_theme'));?>>Technica</option>
-    </select>
+		<option value="default" <?php selected('default', get_option('wp_poytakirjat_settings_theme')); ?>>Oletus</option>
+		<option value="asteriski" <?php selected('asteriski', get_option('wp_poytakirjat_settings_theme')); ?>>Asteriski</option>
+		<option value="technica" <?php selected('technica', get_option('wp_poytakirjat_settings_theme')); ?>>Technica</option>
+	</select>
 	<?php
 }
+
 add_action('admin_menu', 'wpark_pk_add_help_page');
 
-function wpark_pk_add_settings(){
+function wpark_pk_add_settings()
+{
 	add_settings_section(
 		'wp_poytakirjat_settings',
 		'Asetukset',
 		'wp_poytakirjat_settings_cb',
 		'pk-ohjeet'
 	);
-	add_settings_field( 'wp_poytakirjat_settings_theme',
+	add_settings_field('wp_poytakirjat_settings_theme',
 		'Teema',
 		'wp_poytakirjat_settings_theme_cb',
 		'pk-ohjeet',
 		'wp_poytakirjat_settings'
 	);
-	register_setting( 'pk-ohjeet', 'wp_poytakirjat_settings_theme' );
+	register_setting('pk-ohjeet', 'wp_poytakirjat_settings_theme');
 }
+
 add_action('admin_init', 'wpark_pk_add_settings');
-function wp_poytakirjat_settings_cb(){
+function wp_poytakirjat_settings_cb()
+{
 	echo '<p>Kaikki teemaan liittyvät asetukset</p>';
 }
 

@@ -20,5 +20,5 @@ get_header();
 		</div>
 	</header>
 <?php
-include_once( dirname( __FILE__ ). '/poytakirjat-shortcode.php' );
+include_once(dirname(__FILE__) . '/poytakirjat-shortcode.php');
 get_footer();

@@ -25,9 +25,9 @@ addButton.addEventListener( 'click', function() {
 
 pdfUploader.on( 'select', function() {
     var attachment = pdfUploader.state().get('selection').first().toJSON();
-	if(attachment.sizes){
-		img.setAttribute( 'src', attachment.sizes.full.url );
-		hidden.setAttribute( 'value', JSON.stringify( [{ id: attachment.id, src: attachment.url, tnBig: attachment.sizes.full.url, tnMed: attachment.sizes.medium.url, tnSmall: attachment.sizes.thumbnail.url }]) );
+	if(attachment.icon){
+		img.setAttribute( 'src', attachment.icon );
+		hidden.setAttribute( 'value', JSON.stringify( [{ id: attachment.id, src: attachment.url, tnBig: attachment.icon, tnMed: attachment.icon, tnSmall: attachment.icon }]) );
 	} else {
 		img.setAttribute( 'src', attachment.url );
 		hidden.setAttribute( 'value', JSON.stringify( [{ id: attachment.id, src: attachment.url, tnBig: attachment.url, tnMed: attachment.url, tnSmall: attachment.url }]) );
@@ -49,7 +49,7 @@ var toggleVisibility = function( action ) {
     if ( 'ADD' === action ) {
         addButton.style.display = 'none';
         deleteButton.style.display = '';
-        img.setAttribute( 'style', 'width: 100%; max-width: 500px; border: 1px solid gray; box-shadow: 2px 2px 2px #556b55;' );
+        img.setAttribute( 'style', 'width: 150px; height: auto;display:block;margin-bottom:10px;');
     }
 
     if ( 'DELETE' === action ) {
