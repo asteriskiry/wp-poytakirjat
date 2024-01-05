@@ -2,10 +2,17 @@
  * Javascripit pöytäkirjojen fronttiin
  **/
 jQuery(document).ready(function($) {
+	DateTable.datetime('DD/MM/YYYY');
 	$('#pk-taulukko').DataTable({
 		responsive: true,
-		'order': [[3, 'desc'], [1, 'desc']],
+		'order': [[2, 'asc']],
 		'pageLength': 25,
+		"columnDefs": [
+			{ "type": "html", "targets": 0 },
+            { "type": "num", "targets": 1 },
+            { "type": "date", "targets": 2 },
+			{ "type": "string", "targets": 3 }
+		],
 		'language': {
 			'sProcessing': 'Käsitellään...',
 			'sLengthMenu': 'Näytä _MENU_ pöytäkirjaa',
@@ -30,7 +37,7 @@ jQuery(document).ready(function($) {
 			},
 		},
 	});
-	
+
 	$('.pdf-link').on('click', function(e) {
 		e.preventDefault();
 		let src = $(this).attr('href');
