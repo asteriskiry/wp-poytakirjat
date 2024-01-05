@@ -2,7 +2,7 @@
  * Javascripit pöytäkirjojen fronttiin
  **/
 jQuery(document).ready(function($) {
-	DateTable.datetime('DD/MM/YYYY');
+	DataTable.datetime('DD/MM/YYYY');
 	$('#pk-taulukko').DataTable({
 		responsive: true,
 		'order': [[2, 'asc']],

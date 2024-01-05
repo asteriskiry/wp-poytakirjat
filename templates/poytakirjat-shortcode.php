@@ -1,5 +1,4 @@
 <div id="pk">
-
 	<div id="pk-content">
 		<?php
 
@@ -67,7 +66,7 @@
 			$current_url = home_url($wp->request);
 			?>
 			<li id="pk-dropdown-li">
-				<?php wp_dropdown_categories('show_option_none=' . __('Valitse vuosi', 'wp-poytakirjat') . '&taxonomy=vuosi&value_field=slug'); ?>
+				<?php wp_dropdown_categories('taxonomy=vuosi&value_field=slug&order=DESC'); ?>
 				<script type="text/javascript">
 
 					let dropdown = document.getElementById('cat');
