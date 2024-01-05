@@ -5,14 +5,8 @@ jQuery(document).ready(function($) {
 	DataTable.datetime('DD/MM/YYYY');
 	$('#pk-taulukko').DataTable({
 		responsive: true,
-		'order': [[2, 'asc']],
+		'order': [[2, 'desc']],
 		'pageLength': 25,
-		"columnDefs": [
-			{ "type": "html", "targets": 0 },
-            { "type": "num", "targets": 1 },
-            { "type": "date", "targets": 2 },
-			{ "type": "string", "targets": 3 }
-		],
 		'language': {
 			'sProcessing': 'Käsitellään...',
 			'sLengthMenu': 'Näytä _MENU_ pöytäkirjaa',

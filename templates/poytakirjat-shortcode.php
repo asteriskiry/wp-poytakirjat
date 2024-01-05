@@ -103,7 +103,7 @@
 				$custom_pdf_data = get_post_meta($post->ID, 'custom_pdf_data');
 				$pdfurl = $custom_pdf_data[0]['src'];
 				$slug = get_permalink();
-				$pm = date('d/m/Y', strtotime(get_post_meta($post->ID, 'pk_paivamaara', true)));
+				$pm = date('Y/m/d', strtotime(get_post_meta($post->ID, 'pk_paivamaara', true)));
 				$jn = get_post_meta($post->ID, 'pk_numero', true);
 				$tyyppi = get_the_terms($post->ID, 'tyyppi');
 				$thumbnail = $custom_pdf_data[0]['tnSmall'];

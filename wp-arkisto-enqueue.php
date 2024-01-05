@@ -50,9 +50,8 @@ function wppoyt_enqueue_shortcode_assets()
         wp_deregister_style('jquery-ui-base-dialog');
         wp_enqueue_style('jquery-ui-base-dialog', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.1/themes/base/jquery-ui.min.css');
 
-	    wp_enqueue_script('wpark-moment', plugins_url('assets/moment.min.js', __FILE__));
 	    wp_enqueue_style('wpark-datatables-css', plugins_url('assets/datatables.min.css', __FILE__));
-        wp_enqueue_script('wpark-datatables-js', plugins_url('assets/datatables.min.js', __FILE__), array('jquery', 'wpark-moment'), true);
+        wp_enqueue_script('wpark-datatables-js', plugins_url('assets/datatables.min.js', __FILE__), array('jquery'), true);
 
         wp_enqueue_script('wpark-front-js', plugins_url('js/front-poytakirjat.js', __FILE__), array(
             'jquery',
