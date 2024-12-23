@@ -1,0 +1,26 @@
+name: Build & deploy
+
+on:
+   push:
+      branches:
+         - master
+
+jobs:
+   build:
+      runs-on: ubuntu-latest
+
+      steps:
+         - name: Checkout Code
+           uses: actions/checkout@v3
+      
+         - name: Deploy
+           uses: easingthemes/ssh-deploy@v2.2.11
+           env:
+              SSH_PRIVATE_KEY: ${{ secrets.DEPLOYUSER_SSH_KEY }}
+              REMOTE_HOST: ${{ secrets.DEPLOYUSER_HOST }}
+              REMOTE_USER: ${{ secrets.DEPLOYUSER_USER }}
+              REMOTE_PORT: ${{ secrets.DEPLOYUSER_PORT }}
+              TARGET: "/srv/www/www.asteriski.fi/wp-content/plugins/wp-poytakirjat/"
+              EXCLUDE: "/.git/"
+           with:
+             args: "-avz --delete --chmod=ug=rwx,o=rx --chown=github-deploy:www-data --progress"
