@@ -2,10 +2,20 @@
  * Javascripit pöytäkirjojen fronttiin
  **/
 jQuery(document).ready(function($) {
-	DataTable.datetime('DD/MM/YYYY');
 	$('#pk-taulukko').DataTable({
-		responsive: true,
-		'order': [[2, 'desc']],
+		responsive: {
+			details: {
+				type: 'column',
+			},
+		},
+		columnDefs: [
+			{
+				className: 'dtr-control',
+				orderable: false,
+				targets: 0
+			}
+		],
+		'order': [[1, 'desc']],
 		'pageLength': 25,
 		'language': {
 			'sProcessing': 'Käsitellään...',

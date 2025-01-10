@@ -85,8 +85,9 @@
 		<table id="pk-taulukko" class="row-border">
 			<thead>
 			<tr class="pk-rivi">
+				<th class="dtr-control"></th>
+				<th class="pk-indeksit"><?= __('Nro', 'wp-poytakirjat') ?></th>
 				<th class="pk-indeksit"><?= __('Nimi', 'wp-poytakirjat') ?></th>
-				<th class="pk-indeksit"><?= __('Jnro', 'wp-poytakirjat') ?></th>
 				<th class="pk-indeksit"><?= __('Päivämäärä', 'wp-poytakirjat') ?></th>
 				<th class="pk-indeksit"><?= __('Tyyppi', 'wp-poytakirjat') ?></th>
 			</tr>
@@ -111,8 +112,9 @@
 				/* HTML: dynaamiset kentät*/
 
 				echo '<tr class="item">';
-				echo '<td><a class="hvr-grow pdf-link" href="' . $pdfurl . '">' . $title . '</a></td>';
+				echo '<td class="dtr-td"></td>';
 				echo '<td> ' . $jn . '</td>';
+				echo '<td><a class="hvr-grow pdf-link" href="' . $pdfurl . '">' . $title . '</a></td>';
 				echo '<td> ' . $pm . '</td>';
 				echo '<td> ' . $tyyppi[0]->name . '</td>';
 				echo '</tr>';

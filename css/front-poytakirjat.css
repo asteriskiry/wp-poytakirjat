@@ -10,11 +10,11 @@
 	.cptn11 .ovrly .cptn .fa {
 		margin-top: 2px;
 	}
-	
+
 	.cptn11 .ovrly .cptn p {
 		display: none;
 	}
-	
+
 	.cptn11 .ovrly .cptn h3 {
 		font-size: 12px;
 		line-height: 12px;
@@ -25,7 +25,7 @@
 	.cptn11 .ovrly .cptn h3 {
 		font-size: 10px;
 	}
-	
+
 	.cptn11 .ovrly .cptn .fa {
 		margin-top: 2px;
 		width: 13px;
@@ -39,25 +39,25 @@
 		width: 20px;
 		line-height: 20px;
 	}
-	
+
 	.cptn11 .ovrly .cptn h3 {
 		line-height: 15px;
 	}
-	
+
 	.cptn11 .ovrly .cptn p {
 		line-height: 14px;
 	}
-	
+
 	.cptn11 .ovrly .cptn {
 		height: 35%;
 		padding: 0;
 	}
-	
+
 	.cptn11 .ovrly .cptn div {
 		float: none;
 		height: 30%;
 	}
-	
+
 	.pk-thumb {
 		width: 100%;
 	}
@@ -73,7 +73,7 @@
 	.pk-single-meta {
 		width: 46%;
 	}
-	
+
 	.pk-thumb {
 		width: 46%;
 	}
@@ -196,7 +196,7 @@ input[type=search] {
 	transform: perspective(1px) translateZ(0);
 	box-shadow: 0 0 1px transparent;
 	padding-left: 2.2em;
-	
+
 }
 
 .pk-buttons a:hover, .pk-buttons a:focus {
@@ -311,4 +311,29 @@ input[type=search] {
 
 .modal-open .ui-dialog{
 	z-index:  100001;
+}
+
+th.dtr-control {
+	background-color: #2D8F43;
+}
+
+.dtr-td {
+	padding: 5px;
+}
+
+table.dataTable.dtr-column>tbody>tr>td.dtr-control:before {
+	box-shadow: 0 0 6px rgba(15,14,15,.5);
+	width: 1.5rem;
+	height: 1.5rem;
+	position: initial !important;
+	background-color: #2D8F43;
+	margin: auto;
+	aspect-ratio: 1 / 1;
+	font-weight: bold;
+	font-size: 1.2rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	line-height: 0;
+	border: none;
 }
