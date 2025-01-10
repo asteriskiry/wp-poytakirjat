@@ -14,6 +14,7 @@
 if (!defined('ABSPATH')) {
     exit;
 }
+const POKE_VERSION = '1.0.0'; // For forcing css updates
 
 require_once(plugin_dir_path(__FILE__) . 'wp-arkisto-poytakirjat.php');
 require_once(plugin_dir_path(__FILE__) . 'wp-arkisto-enqueue.php');
@@ -32,7 +33,7 @@ function wppoyt_remove_quick_edit($actions)
     if ($typenow == 'poytakirjat') {
         unset($actions['inline hide-if-no-js']);
     }
-    
+
     return $actions;
 }
 
@@ -45,10 +46,10 @@ add_filter('post_row_actions', 'wppoyt_remove_quick_edit');
  */
 function asteriski_poytakirja_shortcode()
 {
-    
+
     ob_start();
     include(plugin_dir_path(__FILE__) . 'templates/poytakirjat-shortcode.php');
-    
+
     return ob_get_clean();
 }
 
