@@ -101,13 +101,12 @@
 
 				global $post;
 				$title = get_the_title();
-				$custom_pdf_data = get_post_meta($post->ID, 'custom_pdf_data');
-				$pdfurl = $custom_pdf_data[0]['src'];
+				$custom_pdf_data = carbon_get_post_meta($post->ID, 'custom_pdf_data');
+				$pdfurl = wp_get_attachment_url($custom_pdf_data);
 				$slug = get_permalink();
 				$pm = date('Y/m/d', strtotime(get_post_meta($post->ID, 'pk_paivamaara', true)));
 				$jn = get_post_meta($post->ID, 'pk_numero', true);
 				$tyyppi = get_the_terms($post->ID, 'tyyppi');
-				$thumbnail = $custom_pdf_data[0]['tnSmall'];
 
 				/* HTML: dynaamiset kentät*/
 

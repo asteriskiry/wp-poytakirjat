@@ -309,8 +309,8 @@ input[type=search] {
 	opacity: 1;
 }
 
-.modal-open .ui-dialog{
-	z-index:  100001;
+.ui-dialog{
+	z-index:  1000;
 }
 
 th.dtr-control {

@@ -1,4 +1,9 @@
 <?php
+wp_redirect(get_post_type_archive_link('poytakirjat'));
+
+// No singular view for pöke
+
+
 
 /**
  * Template Name: Pöytäkirjat-single
@@ -10,7 +15,7 @@ get_header();
  * Asteriski WP teemaa varten
  */
 ?>
-	
+
 	<header class="page-header">
 		<div class="overlay-dark"></div>
 		<div class="container breadcrumbs-wrapper">
@@ -19,7 +24,7 @@ get_header();
 			</div>
 		</div>
 	</header>
-	
+
 	<div class="pk-single">
 		<script>
 			jQuery(function($) {
@@ -34,33 +39,18 @@ get_header();
 
 if (have_posts()) : while (have_posts()) : the_post();
 	global $post;
-	
+
 	/* Tallennetaan tiedot muuttujiin kannasta */
-	
-	$custom_pdf_data = get_post_meta($post->ID, 'custom_pdf_data');
-	$thumbnail = $custom_pdf_data[0]['tnBig'];
-	$pdfurl = $custom_pdf_data[0]['src'];
+	$pdf_id = (int) carbon_get_post_meta($post->ID, 'custom_pdf_data');
+	$pdfurl = wp_get_attachment_url($pdf_id);
 	$slug = get_permalink();
-	$pm = get_post_meta($post->ID, 'pk_paivamaara', true);
-	$jn = get_post_meta($post->ID, 'pk_numero', true);
+	$pm = carbon_get_post_meta($post->ID, 'pk_paivamaara', true);
+	$jn = carbon_get_post_meta($post->ID, 'pk_numero', true);
 	$tyyppi = get_the_terms($post->ID, 'tyyppi');
-	
+
 	/* Generoidaan HTML */
-	
-	echo '<div class="pk-grid">';
-	echo '<div class="pk-thumb">';
-	echo '<div class="btn26">';
-	echo '<img src="' . $thumbnail . '"><div class="ovrly"></div><div class="anim-buttons"><a class="fa fa-file-pdf" href="' . $pdfurl . '"></a></div>';
-	echo '</div>';
-	echo '</div>';
-	echo '<div class="pk-single-meta">';
-	echo '<div class="pk-buttons-left">';
-	echo previous_post_link('%link', '<i class="fa fa-chevron-left"></i> Edellinen');
-	echo '</div>';
-	echo '<div class="pk-buttons-right">';
-	echo next_post_link('%link', 'Seuraava <i class="fa fa-chevron-right"></i>');
-	echo '</div>';
-	echo '<br>';
+	echo '<a class="hvr-grow" href="' . $pdfurl . '" download>Lataa pöytäkirja <i class="fa fa-paperclip"></i></a>';
+
 	echo '<div class="pk-single-meta-content">';
 	echo '<table>';
 	echo '<tr>';
@@ -73,12 +63,21 @@ if (have_posts()) : while (have_posts()) : the_post();
 	echo '<td><strong>Järjestysnumero</strong></td><td>' . $jn . '</td>';
 	echo '</tr>';
 	echo '</table>';
-	echo '<a class="hvr-grow"href="' . $pdfurl . '">PDF-tiedosto <i class="fa fa-file-pdf-o"></i></a>';
 	echo '</div>';
+
+	echo '<div class="pk-pagination">';
+	echo '<div class="pk-buttons-left">';
+	echo previous_post_link('%link', '<i class="fa fa-chevron-left"></i> Edellinen');
+	echo '</div>';
+	echo '<div class="pk-buttons-right">';
+	echo next_post_link('%link', 'Seuraava <i class="fa fa-chevron-right"></i>');
+	echo '</div>';
+	echo '</div>';
+
 	echo '<div class="pk-buttons">';
-	echo '<a href="' . get_site_url() . '/' . get_post_type($post->ID) . '"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Takaisin selailuun</a>';
+	echo '<a href="' . get_site_url() . '/' . 'poytakirjat' . '"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Takaisin selailuun</a>';
 	echo '</div>';
-	echo '</div>';
+
 	echo '</div>';
 	echo '</div>';
 
