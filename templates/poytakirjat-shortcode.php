@@ -104,8 +104,8 @@
 				$custom_pdf_data = carbon_get_post_meta($post->ID, 'custom_pdf_data');
 				$pdfurl = wp_get_attachment_url($custom_pdf_data);
 				$slug = get_permalink();
-				$pm = date('Y/m/d', strtotime(get_post_meta($post->ID, 'pk_paivamaara', true)));
-				$jn = get_post_meta($post->ID, 'pk_numero', true);
+				$pm = date('Y/m/d', strtotime(carbon_get_post_meta($post->ID, 'pk_paivamaara')));
+				$jn = carbon_get_post_meta($post->ID, 'pk_numero');
 				$tyyppi = get_the_terms($post->ID, 'tyyppi');
 
 				/* HTML: dynaamiset kentät*/

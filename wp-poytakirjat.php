@@ -72,3 +72,26 @@ function pk_attach_theme_options() {
 			->set_type(['text/plain', 'text/richtext', 'text/html', 'application/pdf', 'application/msword']),
 		]);
 }
+
+
+function save_poke($post_id) {
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+		return;
+	}
+
+	$numero = carbon_get_post_meta($post_id, 'pk_numero');
+	$tyyppi = get_the_terms($post_id, 'vuosi');
+
+	if ($numero && !empty($tyyppi[0])) {
+		remove_action( 'save_post_poytakirjat', 'save_poke' );
+
+		$new_title = 'Pöytäkirja '. $numero. '/'.$tyyppi[0]->name;
+		wp_update_post([
+			'ID' => $post_id,
+			'post_title' => $new_title,
+		]);
+
+		add_action( 'save_post_poytakirjat', 'save_poke' );
+	}
+}
+add_action('save_post_poytakirjat', 'save_poke');
