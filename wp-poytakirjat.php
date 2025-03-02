@@ -75,23 +75,45 @@ function pk_attach_theme_options() {
 
 
 function save_poke($post_id) {
-	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+	// Prevent auto-saves and ensure we are handling 'poytakirjat' post type
+	if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
 		return;
 	}
+	if (get_post_type($post_id) !== 'poytakirjat') {
+		return;
+	}
+	if (wp_is_post_revision($post_id)) {
+		return;
+	}
+
+	// Delay execution to ensure meta fields & taxonomies are saved first
+	add_action('wp_insert_post', function ($post_id) {
+		update_poytakirja_title($post_id);
+	}, 20, 1);
+}
+
+function update_poytakirja_title($post_id) {
+	// Prevent recursion
+	remove_action('save_post', 'save_poke');
 
 	$numero = carbon_get_post_meta($post_id, 'pk_numero');
 	$tyyppi = get_the_terms($post_id, 'vuosi');
 
-	if ($numero && !empty($tyyppi[0])) {
-		remove_action( 'save_post_poytakirjat', 'save_poke' );
+	if (!empty($numero) && !empty($tyyppi) && is_array($tyyppi)) {
+		$new_title = 'Pöytäkirja ' . $numero . '/' . $tyyppi[0]->name;
 
-		$new_title = 'Pöytäkirja '. $numero. '/'.$tyyppi[0]->name;
-		wp_update_post([
-			'ID' => $post_id,
-			'post_title' => $new_title,
-		]);
-
-		add_action( 'save_post_poytakirjat', 'save_poke' );
+		// Update post title only if different
+		$current_title = get_the_title($post_id);
+		if ($current_title !== $new_title) {
+			wp_update_post([
+				'ID' => $post_id,
+				'post_title' => $new_title,
+			]);
+		}
 	}
+
+	// Re-add the action
+	add_action('save_post', 'save_poke');
 }
-add_action('save_post_poytakirjat', 'save_poke');
+
+add_action('save_post', 'save_poke');

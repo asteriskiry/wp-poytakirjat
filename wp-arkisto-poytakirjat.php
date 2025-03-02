@@ -2,14 +2,13 @@
 
 /* Custom post type "Pöytäkirjat" rekisteröinti */
 
-function wpark_pk_register_post_type(): void
-{
+function wpark_pk_register_post_type(): void {
 
 	$singular = 'Pöytäkirja';
 	$plural = 'Pöytäkirjat';
 	$slug = 'poytakirjat';
 
-	$labels = array(
+	$labels = [
 		'name' => $plural,
 		'singular_name' => $singular,
 		'add_name' => 'Lisää uusi',
@@ -23,9 +22,9 @@ function wpark_pk_register_post_type(): void
 		'parent' => 'Vanhempi ' . $singular,
 		'not_found' => 'Asiakirjoja ei löytynyt',
 		'not_found_in_trash' => 'Asiakirjoja ei löytynyt roskakorista',
-	);
+	];
 
-	$args = array(
+	$args = [
 		'labels' => $labels,
 		'public' => true,
 		'publicly_queryable' => true,
@@ -44,17 +43,17 @@ function wpark_pk_register_post_type(): void
 		'capability_type' => 'post',
 		'map_meta_cap' => true,
 		// 'capabilities'       => array(),
-		'taxonomies' => array('vuosi', 'tyyppi',),
-		'rewrite' => array(
+		'taxonomies' => ['vuosi', 'tyyppi',],
+		'rewrite' => [
 			'slug' => $slug,
 			'with_front' => true,
 			'pages' => true,
 			'feeds' => false,
-		),
-		'supports' => array(
+		],
+		'supports' => [
 			'title',
-		),
-	);
+		],
+	];
 
 	register_post_type($slug, $args);
 }
@@ -62,14 +61,13 @@ function wpark_pk_register_post_type(): void
 add_action('init', 'wpark_pk_register_post_type');
 
 /* Custom taxonomyn "Vuodet" rekisteröinti pöyräkirjoille */
-function wpark_pk_register_taxonomy_vuosi(): void
-{
+function wpark_pk_register_taxonomy_vuosi(): void {
 
 	$plural = 'Vuodet';
 	$singular = 'Vuosi';
 	$slug = 'vuosi';
 
-	$labels = array(
+	$labels = [
 		'name' => $singular,
 		'singular_name' => $singular,
 		'search_items' => 'Etsi vuotta',
@@ -86,10 +84,10 @@ function wpark_pk_register_taxonomy_vuosi(): void
 		'choose_from_most_used' => 'Valitse suosituimmista vuosista',
 		'not_found' => 'Vuosia ei löytynyt',
 		'menu_name' => $plural,
-	);
+	];
 
 	/** @link wpark_pk_taxonomy_meta_box */
-	$args = array(
+	$args = [
 		'public' => false,
 		'hierarchical' => true,
 		'labels' => $labels,
@@ -97,9 +95,9 @@ function wpark_pk_register_taxonomy_vuosi(): void
 		'show_admin_column' => true,
 		'update_count_callback' => '_update_post_term_count',
 		'query_var' => true,
-		'rewrite' => array('slug' => $slug),
+		'rewrite' => ['slug' => $slug],
 		'meta_box_cb' => 'wpark_pk_taxonomy_meta_box',
-	);
+	];
 	register_taxonomy($slug, 'poytakirjat', $args);
 }
 
@@ -107,14 +105,13 @@ add_action('init', 'wpark_pk_register_taxonomy_vuosi');
 
 /* Custom taxonomyn "Tyyppi" rekisteröinti pöyräkirjoille */
 
-function wpark_pk_register_taxonomy_tyyppi(): void
-{
+function wpark_pk_register_taxonomy_tyyppi(): void {
 
 	$plural = 'Tyypit';
 	$singular = 'Tyyppi';
 	$slug = 'tyyppi';
 
-	$labels = array(
+	$labels = [
 		'name' => $singular,
 		'singular_name' => $singular,
 		'search_items' => 'Etsi tyyppiä',
@@ -131,10 +128,10 @@ function wpark_pk_register_taxonomy_tyyppi(): void
 		'choose_from_most_used' => 'Valitse suosituimmista tyypeistä',
 		'not_found' => 'Tyyppejä ei löytynyt',
 		'menu_name' => $plural,
-	);
+	];
 
 	/** @link wpark_pk_taxonomy_meta_box */
-	$args = array(
+	$args = [
 		'public' => false,
 		'hierarchical' => true,
 		'labels' => $labels,
@@ -142,23 +139,26 @@ function wpark_pk_register_taxonomy_tyyppi(): void
 		'show_admin_column' => true,
 		'update_count_callback' => '_update_post_term_count',
 		'query_var' => true,
-		'rewrite' => array('slug' => $slug),
+		'rewrite' => ['slug' => $slug],
 		'meta_box_cb' => 'wpark_pk_taxonomy_meta_box',
-	);
+	];
 	register_taxonomy($slug, 'poytakirjat', $args);
 }
 
 add_action('init', 'wpark_pk_register_taxonomy_tyyppi');
 
 /* Lisäyssivun taxonomioiden meta boxit */
-function wpark_pk_taxonomy_meta_box($post, $meta_box_properties): void
-{
+function wpark_pk_taxonomy_meta_box($post, $meta_box_properties): void {
 	$taxonomy = $meta_box_properties['args']['taxonomy'];
 	$tax = get_taxonomy($taxonomy);
-	$terms = get_terms($taxonomy, array('hide_empty' => 0));
+	$terms = get_terms($taxonomy, ['hide_empty' => 0]);
 	$postterms = get_the_terms($post->ID, $taxonomy);
 	$current = ($postterms ? array_pop($postterms) : false);
 	$current = ($current ? $current->term_id : 0);
+
+	if ($taxonomy === 'vuosi' && is_array($terms)) {
+		$terms = array_reverse($terms);
+	}
 	?>
 
 	<div id="taxonomy-<?php echo $taxonomy; ?>" class="categorydiv">
@@ -171,12 +171,25 @@ function wpark_pk_taxonomy_meta_box($post, $meta_box_properties): void
 			<ul id="<?php echo $taxonomy; ?>checklist" data-wp-lists="list:symbol" class="categorychecklist form-no-clear">
 
 				<?php
+				$first = false;
 				foreach ($terms as $term) {
 					$id = $taxonomy . '-' . $term->term_id; ?>
 
 					<li id="<?php echo $id ?>">
-						<label class="selectit"><input required value="<?php echo $term->term_id; ?>" name="tax_input[<?php echo $taxonomy; ?>][]" id="in-<?php echo $id; ?>"
-													   <?php if ($current === $term->term_id){ ?>checked="checked"<?php } ?> type="radio"> <?php echo $term->name; ?></label>
+						<label class="selectit">
+							<?php if (!$first && !$current):
+							$first = true;
+							?>
+							<input required value="<?php echo $term->term_id; ?>" name="tax_input[<?php echo $taxonomy; ?>][]"
+							       id="in-<?php echo $id; ?>"
+								   checked="checked"
+							       type="radio"> <?php echo $term->name; ?></label>
+						<?php else : ?>
+							<input required value="<?php echo $term->term_id; ?>" name="tax_input[<?php echo $taxonomy; ?>][]"
+							       id="in-<?php echo $id; ?>"
+								   <?php if ($current === $term->term_id){ ?>checked="checked"<?php } ?>
+							       type="radio"> <?php echo $term->name; ?></label>
+						<?php endif; ?>
 					</li>
 				<?php } ?>
 			</ul>
@@ -186,8 +199,7 @@ function wpark_pk_taxonomy_meta_box($post, $meta_box_properties): void
 }
 
 /* Asiakirjojen lisäyssivun meta boxit (Järjestysnum, pvm, helppi) */
-function wpark_pk_add_metabox(): void
-{
+function wpark_pk_add_metabox(): void {
 	add_meta_box(
 		'wpark_pk_help',
 		'Tiedote',
@@ -200,15 +212,12 @@ function wpark_pk_add_metabox(): void
 
 add_action('add_meta_boxes', 'wpark_pk_add_metabox');
 
-function wpark_pk_help_callback($post): void
-{
+function wpark_pk_help_callback($post): void {
 	echo '<div class="meta-help">Jos et ole ihan varma mitä teet, katso <a href="' . admin_url('edit.php?post_type=poytakirjat&page=pk-ohjeet') . '">ohjeet</a></div>';
 }
 
-
 /* Templojen lataus */
-function wpark_load_templates($original_template)
-{
+function wpark_load_templates($original_template) {
 	if (get_query_var('post_type') !== 'poytakirjat') {
 		return $original_template;
 	}
@@ -225,8 +234,7 @@ add_action('template_include', 'wpark_load_templates');
 
 /* Ohjeet-sivu */
 
-function wpark_pk_add_help_page(): void
-{
+function wpark_pk_add_help_page(): void {
 
 	add_submenu_page(
 		'edit.php?post_type=poytakirjat',
@@ -238,8 +246,7 @@ function wpark_pk_add_help_page(): void
 	);
 }
 
-function wp_poytakirjat_settings_theme_cb(): void
-{
+function wp_poytakirjat_settings_theme_cb(): void {
 	?>
 	<select id="wp_poytakirjat_settings_theme" name="wp_poytakirjat_settings_theme">
 		<option value="default" <?php selected('default', get_option('wp_poytakirjat_settings_theme')); ?>>Oletus</option>
@@ -251,8 +258,7 @@ function wp_poytakirjat_settings_theme_cb(): void
 
 add_action('admin_menu', 'wpark_pk_add_help_page');
 
-function wpark_pk_add_settings()
-{
+function wpark_pk_add_settings() {
 	add_settings_section(
 		'wp_poytakirjat_settings',
 		'Asetukset',
@@ -269,13 +275,11 @@ function wpark_pk_add_settings()
 }
 
 add_action('admin_init', 'wpark_pk_add_settings');
-function wp_poytakirjat_settings_cb()
-{
+function wp_poytakirjat_settings_cb() {
 	echo '<p>Kaikki teemaan liittyvät asetukset</p>';
 }
 
-function wpark_pk_help_cb(): void
-{
+function wpark_pk_help_cb(): void {
 	?>
 	<div class="help-page">
 		<h1>Ohjeet asiakirjojen hallintaan</h1>
@@ -291,7 +295,8 @@ function wpark_pk_help_cb(): void
 		</ol>
 
 		<h3>Tyyppien ja vuosien hallinta</h3>
-		<p>Tyyppejä voi lisätä tarpeen mukaan Pöytäkirjat->Tyypit -valikosta. Vuosia vastaavasta. Ainoa täytettävä kenttä on "Nimi". Nimen täyttämisen jälkeen paina "Lisää uusi
+		<p>Tyyppejä voi lisätä tarpeen mukaan Pöytäkirjat->Tyypit -valikosta. Vuosia vastaavasta. Ainoa täytettävä kenttä on "Nimi". Nimen
+			täyttämisen jälkeen paina "Lisää uusi
 			Tyyppi/Vuosi"-näppäintä ja uusi vuosi/tyyppi on käytettävissä asiakirjan lisäyssivulla</p>
 
 		<h3>Tyypeistä</h3>
@@ -311,8 +316,7 @@ function wpark_pk_help_cb(): void
 
 /* Adminin listauksen dataa */
 
-function wpark_pk_columns($columns)
-{
+function wpark_pk_columns($columns) {
 	$columns['kokouksen_pvm'] = 'Kokouksen päivämäärä';
 
 	return $columns;
@@ -320,10 +324,9 @@ function wpark_pk_columns($columns)
 
 add_filter('manage_edit-poytakirjat_columns', 'wpark_pk_columns');
 
-function wpark_pk_populate_columns($column): void
-{
+function wpark_pk_populate_columns($column): void {
 	if ('kokouksen_pvm' == $column) {
-		$kok_pvm = esc_html(get_post_meta(get_the_ID(), 'pk_paivamaara', true));
+		$kok_pvm = esc_html(carbon_get_post_meta(get_the_ID(), 'pk_paivamaara'));
 		echo $kok_pvm;
 	}
 }
